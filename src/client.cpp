@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
     return 1;
   }
 
-  char sendBuff[] = "yeet";
+  char sendBuff[] = "all";
   write(sockfd,sendBuff,strlen(sendBuff));
 
   while((n = read(sockfd, recvBuff, sizeof(recvBuff)-1)) > 0)
@@ -63,4 +63,5 @@ int main(int argc, char *argv[])
   {
     std::cout << "Read error" << std::endl;
   }
+  while(1){}
 }

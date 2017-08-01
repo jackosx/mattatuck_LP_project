@@ -2,13 +2,12 @@
 #include <iostream>
 #include <fstream>
 #include <ctime>
+#include <fstream>
 
-Data::Data(int id, std::string lp, std::string time, std::string date)
+Data::Data(int id, std::string lp)
 {
   ID = id;
   LP = lp;
-  Time = time;
-  Date = date;
 }
 
 std::string Data::getLP()
@@ -18,12 +17,12 @@ std::string Data::getLP()
 
 std::string Data::getTime(std::string lp)
 {
-
+  return Date;
 }
 
 std::string Data::getDate(std::string lp)
 {
-
+  return Time;
 }
 
 void writeData(std::vector<Data> data)
@@ -40,4 +39,20 @@ void writeData(std::vector<Data> data)
     output << "Time:" << now->tm_hour << ":" << now->tm_min << ":" << now->tm_sec << std::endl;
     output << "Date:" << now->tm_mon << ":" << now->tm_mday << ":" << now->tm_year+1900 << std::endl;
   }
+}
+
+std::string readData()
+{
+  std::string data;
+  std::ifstream inputFile("lpData");
+  if(inputFile.is_open())
+  {
+    while(!inputFile.eof())
+    {
+      std::string input;
+      std::getline(inputFile,input);
+      data+=(input + "\n");
+    }
+  }
+  return data;
 }

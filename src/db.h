@@ -11,12 +11,13 @@ class Data
   std::string Time;
   std::string Date;
  public:
-  Data(int id, std::string lp, std::string Time, std::string Date);
+  Data(int id, std::string lp);
   std::string getLP();
   std::string getTime(std::string lp);
   std::string getDate(std::string lp);
 };
 
 void writeData(std::vector<Data> data);
+std::string readData();
 
 #endif

@@ -22,7 +22,7 @@ std::string takePicture(int count)
   stream1.read(cameraFrame);
   
   std::vector<uchar> buff;
-  std::vector<char> kike;
+  std::vector<char> convert;
   std::vector<int> cp;
 
   cp.push_back(CV_IMWRITE_PNG_COMPRESSION);
@@ -33,10 +33,10 @@ std::string takePicture(int count)
 
   for(int i = 0; i < buff.size(); i++)
   {
-    kike.push_back(buff[i]);
+    convert.push_back(buff[i]);
   }
   
-  alpr::AlprResults results = openalpr.recognize(kike);
+  alpr::AlprResults results = openalpr.recognize(convert);
 
   if(results.plates.size() > 0)
   {
@@ -91,7 +91,7 @@ void runLPDetect()
 	lp = takePicture(i);
 	if(lp != "")
 	{
-	  lpDataVec.push_back(Data(count,lp,"yeet","ok"));
+	  lpDataVec.push_back(Data(count,lp));
 	  count++;
 	  writeData(lpDataVec);
 	  std::cout << lp << std::endl;

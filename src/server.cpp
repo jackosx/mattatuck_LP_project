@@ -9,20 +9,62 @@
 #include <sys/types.h>
 #include <time.h>
 #include <iostream>
-
+#include <string>
+#include <vector>
+#include <thread>
 #include "server.h"
+#include "db.h"
+
+std::string rec(std::string input)
+{
+  if(input == "all")
+  {
+    return readData();
+  }else if(input == ""){
+
+  }
+}
+
+void command(int listenfd)
+{
+  int connfd = 0;
+  int n = 0;
+  char recvBuff[1024];
+  char sendBuff[1024];
+  while(1)
+  {
+    connfd = accept(listenfd,(struct sockaddr*)NULL,NULL);
+    n = read(connfd, recvBuff,sizeof(recvBuff)-1);
+    std::string recvBuffs = recvBuff;
+    recvBuff[n] = 0;
+    std::string response = rec(recvBuffs);
+    snprintf(sendBuff,sizeof(sendBuff), response.c_str());
+    write(connfd,sendBuff,strlen(sendBuff));
+    close(connfd);
+    sleep(1);
+  }
+}
+
+void sendText(std::vector<std::string> data)
+{
+  int connfd = 0, listenfd = 0, n = 0;
+  char sendBuff[1024];
+  struct sockaddr_in serv_addr;
+
+  //listenfd = socket(AF_NET, SOCK_STREAM, 0);
+
+  while(1)
+  {
+    //connfd = accept(listenfd,(struct sockaddr*),NULL,NULL);
+    
+  }
+}
 
 void server()
 {
   int listenfd = 0, connfd = 0;
   struct sockaddr_in serv_addr;
-
-  int n = 0;
-  
   char sendBuff[1024];
-  time_t ticks;
-
-  char recvBuff[1024];
   
   listenfd = socket(AF_INET, SOCK_STREAM, 0);
   memset(&serv_addr, '0', sizeof(serv_addr));
@@ -36,27 +78,5 @@ void server()
 
   listen(listenfd, 10);
   
-  while(1)
-  {
-    connfd = accept(listenfd,(struct sockaddr*)NULL,NULL);
-    n = read(connfd, recvBuff,sizeof(recvBuff)-1);
-    
-      //for(int i = 0; i < sizeof(recvBuff); ++i)
-      //{
-
-      //}
-      std::cout << recvBuff << std::endl;
-      
-      recvBuff[n] = 0;	
-    
-    ticks = time(NULL);
-    std::cout << "time done" << std::endl;
-    snprintf(sendBuff,sizeof(sendBuff), "%.24s\r\n",ctime(&ticks));
-    std::cout << "converted" << std::endl;
-    write(connfd,sendBuff,strlen(sendBuff));
-    std::cout << "sent" << std::endl;
-
-    close(connfd);
-    sleep(1);
-  }
+  command(listenfd);
 }
