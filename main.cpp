@@ -6,10 +6,13 @@
 #include <string>
 #include <time.h>
 #include <sstream>
+#include <thread>
+#include "src/db.h"
+#include "src/server.h"
 
 std::string takePicture(int count)
 {
-  cv::VideoCapture stream1(1); //cap
+  cv::VideoCapture stream1("picture/lp.png"); //cap
 
   if(!stream1.isOpened())
   {
@@ -49,6 +52,7 @@ std::string takePicture(int count)
   alpr::AlprPlateResult plate = results.plates[0];
   alpr::AlprPlate candidate = plate.topNPlates[0];
   std::string t = candidate.characters;
+  
   return t;
 }
 
@@ -57,16 +61,18 @@ double elapsedTime(double tt)
   return(clock() - tt) / CLOCKS_PER_SEC;
 }
 
-int main()
+void runLPDetect()
 {
+  std::vector<Data> lpDataVec;
   int i = 0;
   int last = 0;
   double tt;
+
   std::string lp;
   bool trigger = false;
-
+  int count = 0;
   tt = clock();
-  while(i < 200)
+  while(i < 1)
   {
     if(elapsedTime(tt) >= .3)
     {
@@ -85,12 +91,32 @@ int main()
 	lp = takePicture(i);
 	if(lp != "")
 	{
+	  lpDataVec.push_back(Data(count,lp,"yeet","ok"));
+	  count++;
+	  writeData(lpDataVec);
 	  std::cout << lp << std::endl;
 	  trigger = true;
 	}else{
-	  std::cout << "No lp" << std::endl;
+	  //std::cout << "No lp" << std::endl;
 	}
       }
     }
   }
+
+  std::cout << "-------------" << std::endl;
+  for(int e = 0; e < lpDataVec.size(); ++e)
+  {
+    std::cout << lpDataVec[e].getLP() << std::endl;
+  }
+
+  //writeData(lpDataVec);
+}
+
+int main()
+{
+  std::thread tlp(runLPDetect);
+  std::thread tserver(server);
+
+  tlp.join();
+  tserver.join();
 }
