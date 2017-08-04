@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
   memset(&serv_addr, '0', sizeof(serv_addr));
 
   serv_addr.sin_family = AF_INET;
-  serv_addr.sin_port = htons(5000);
+  serv_addr.sin_port = htons(8080);
 
   if(inet_pton(AF_INET, argv[1], &serv_addr.sin_addr) <= 0)
   {
@@ -47,21 +47,26 @@ int main(int argc, char *argv[])
     return 1;
   }
 
-  char sendBuff[] = "all";
+  char sendBuff[] = "add 283ZGP whyyyyyyyyy";
   write(sockfd,sendBuff,strlen(sendBuff));
 
   while((n = read(sockfd, recvBuff, sizeof(recvBuff)-1)) > 0)
   {
-    recvBuff[n] = 0;
+    //recvBuff[n] = 0;
+    /*
     if(fputs(recvBuff,stdout) == EOF)
     {
       std::cout << "Fputs error" << std::endl;
     }
+    */
   }
+  std::string t = recvBuff;
+  recvBuff[n] = 0;
+  std::cout << t;
 
   if(n < 0)
   {
     std::cout << "Read error" << std::endl;
   }
-  while(1){}
+  //while(1){}
 }

@@ -12,7 +12,7 @@
 
 std::string takePicture(int count)
 {
-  cv::VideoCapture stream1("picture/lp.png"); //cap
+  cv::VideoCapture stream1("picture/lp13.png"); //cap
 
   if(!stream1.isOpened())
   {
@@ -63,6 +63,9 @@ double elapsedTime(double tt)
 
 void runLPDetect()
 {
+  //addContact();
+  //addContact();
+  addContact("1784CM","your truck");
   std::vector<Data> lpDataVec;
   int i = 0;
   int last = 0;
@@ -72,9 +75,9 @@ void runLPDetect()
   bool trigger = false;
   int count = 0;
   tt = clock();
-  while(i < 1)
+  while(i < 30)
   {
-    if(elapsedTime(tt) >= .3)
+    if(elapsedTime(tt) >= .7)
     {
       i++;
       tt = clock();
@@ -95,6 +98,13 @@ void runLPDetect()
 	  count++;
 	  writeData(lpDataVec);
 	  std::cout << lp << std::endl;
+	  std::string contact = checkContact(lp);
+	  if(contact != "")
+	  {
+	    std::cout << contact << std::endl;
+	  }else{
+	    std::cout << "No Contact" << std::endl;
+	  }
 	  trigger = true;
 	}else{
 	  //std::cout << "No lp" << std::endl;

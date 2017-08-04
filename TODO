@@ -1,0 +1,4 @@
+find camera
+rebuild line reader to input commands - server
+build notification support - server & app
+build formatter - app
