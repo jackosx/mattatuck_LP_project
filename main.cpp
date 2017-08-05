@@ -7,6 +7,8 @@
 #include <time.h>
 #include <sstream>
 #include <thread>
+#include <ctime>
+
 #include "src/db.h"
 #include "src/server.h"
 
@@ -65,7 +67,7 @@ void runLPDetect()
 {
   //addContact();
   //addContact();
-  addContact("1784CM","your truck");
+  addContact("283ZGP","your truck");
   std::vector<Data> lpDataVec;
   int i = 0;
   int last = 0;
@@ -75,7 +77,7 @@ void runLPDetect()
   bool trigger = false;
   int count = 0;
   tt = clock();
-  while(i < 30)
+  while(i < 200)
   {
     if(elapsedTime(tt) >= .7)
     {
@@ -94,7 +96,14 @@ void runLPDetect()
 	lp = takePicture(i);
 	if(lp != "")
 	{
-	  lpDataVec.push_back(Data(count,lp));
+	  time_t t = time(0);
+	  struct tm * now = localtime(&t);
+	  
+	  std::string date = std::to_string(now->tm_mon + 1) + "/" + std::to_string(now->tm_mday) + "/" + std::to_string(now->tm_year + 1900);
+	  std::string time = std::to_string(now->tm_hour) + ":" + std::to_string(now->tm_min) + ":" + std::to_string(now->tm_sec);
+
+	  lpDataVec.push_back(Data(count,lp,time,date));
+
 	  count++;
 	  writeData(lpDataVec);
 	  std::cout << lp << std::endl;

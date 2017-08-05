@@ -12,11 +12,11 @@ class Data
   std::string Time;
   std::string Date;
  public:
-  Data(int id, std::string lp);
+  Data(int id, std::string lp, std::string time, std::string date);
   std::string getLP();
-  std::string getTime(std::string lp);
-  std::string getDate(std::string lp);
-  void setLP(std::string name);
+  std::string getTime();
+  std::string getDate();
+  void setName(std::string name);
   std::string getName();
 };
 

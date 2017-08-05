@@ -1,4 +1,6 @@
 find camera
-rebuild line reader to input commands - server
+build input line - app
 build notification support - server & app
 build formatter - app
+build scroll bar - app
+buy camera

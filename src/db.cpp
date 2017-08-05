@@ -4,10 +4,12 @@
 #include <ctime>
 #include <fstream>
 
-Data::Data(int id, std::string lp)
+Data::Data(int id, std::string lp, std::string time, std::string date)
 {
   ID = id;
   LP = lp;
+  Time = time;
+  Date = date;
 }
 
 std::string Data::getLP()
@@ -15,24 +17,24 @@ std::string Data::getLP()
   return LP;
 }
 
-void Data::setLP(std::string name)
+void Data::setName(std::string name)
 {
   Name = name;
 }
 
-std::string Data::getLP()
+std::string Data::getName()
 {
-
+  return "";
 }
 
-std::string Data::getTime(std::string lp)
-{
-  return Date;
-}
-
-std::string Data::getDate(std::string lp)
+std::string Data::getTime()
 {
   return Time;
+}
+
+std::string Data::getDate()
+{
+  return Date;
 }
 
 void writeData(std::vector<Data> data)
@@ -46,9 +48,9 @@ void writeData(std::vector<Data> data)
   {
     output << "ID:" << i << std::endl;
     output << "LP:" << data[i].getLP() << std::endl;
-    output << "Name" << data[i].getName() << std::endl;
-    output << "Time:" << now->tm_hour << ":" << now->tm_min << ":" << now->tm_sec << std::endl;
-    output << "Date:" << now->tm_mon << ":" << now->tm_mday << ":" << now->tm_year+1900 << std::endl;
+    //output << "Name" << data[i].getName() << std::endl;
+    output << "Time:" << data[i].getTime() << std::endl;
+    output << "Date:" << data[i].getDate() << std::endl;
   }
 }
 
@@ -101,15 +103,21 @@ std::string readData()
     {
       std::string input;
       std::getline(inputFile,input);
-      if(input.substring(0,2) == "ID")
+      if(input.substr(0,2) == "LP")
       {
-	name = checkContact();
+	//std::cout << input.substr(0,6) << std::endl;
+	name = checkContact(input.substr(3,input.length()));
+	std::cout << name << std::endl;
 	if(name != "")
 	{
-
+	  std::cout << name << std::endl;
+	  data+=(input + "|");
+	  data+=("Name:"+name+"|");
 	}else{ 
 	  data+=(input + "|");
 	}
+      }else{
+	data+=(input+"|");
       }
     }
   }

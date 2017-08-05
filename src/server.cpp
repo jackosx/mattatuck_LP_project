@@ -86,7 +86,10 @@ void server()
   serv_addr.sin_port = htons(8080);
 
   bind(listenfd,(struct sockaddr*)&serv_addr, sizeof(serv_addr));
-
+  if(bind != 0)
+  {
+    std::cout << "still bound" << std::endl;
+  }
   listen(listenfd, 10);
   
   while(1)
