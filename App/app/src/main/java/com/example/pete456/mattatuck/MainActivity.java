@@ -6,6 +6,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -18,7 +20,7 @@ import java.net.Socket;
 public class MainActivity extends ActionBarActivity
 {
     private TextView serverData;
-    public void sendMessage(final TextView test)
+    public void sendMessage(final TextView test, final EditText text)
     {
         final Handler handler = new Handler();
 
@@ -32,7 +34,7 @@ public class MainActivity extends ActionBarActivity
                     Log.d("yeet","created socket");
                     OutputStream out = s.getOutputStream();
                     PrintWriter output = new PrintWriter(out);
-                    output.print("get all");
+                    output.print(text.getText().toString().toLowerCase());
                     output.flush();
                     BufferedReader input = new BufferedReader(new InputStreamReader(s.getInputStream()));
                     st = input.readLine();
@@ -90,12 +92,13 @@ public class MainActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final Button buttonSend = (Button)findViewById(R.id.get_button);
-        serverData = (TextView)findViewById(R.id.tv);
+        final EditText edit = (EditText)findViewById(R.id.editText);
+        serverData = (TextView) findViewById(R.id.tv);
         buttonSend.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View view)
             {
-                sendMessage(serverData);
+                sendMessage(serverData, edit);
             }
         });
 

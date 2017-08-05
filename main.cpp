@@ -67,7 +67,7 @@ void runLPDetect()
 {
   //addContact();
   //addContact();
-  addContact("283ZGP","your truck");
+  //addContact("283ZGP","your truck");
   std::vector<Data> lpDataVec;
   int i = 0;
   int last = 0;
